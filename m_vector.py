@@ -48,9 +48,23 @@ class m_vector:
     # []
     def __getitem__(self, item):
         return self.list_value[item]
+
     # []=
     def __setitem__(self, key, value):
         self.list_value[key] = value
 
+    # 点成
+    @classmethod
+    def dot(cls, v1, v2):
+        cur_value = 0
+        cur_value += v1[0] * v2[0]
+        cur_value += v1[1] * v2[1]
+        cur_value += v1[2] * v2[2]
+        return cur_value
 
-
+    # 叉乘
+    @classmethod
+    def cross(cls, v1, v2):
+        return m_vector(v1[1] * v2[2] - v1[2] * v2[1],
+                        v1[2] * v2[0] - v1[0] * v2[2],
+                        v1[0] * v2[1] - v1[1] * v2[0])

@@ -104,6 +104,4 @@ def test(v):
     t = abs(v.x) - abs(v.y)
     return vector(math.ceil(t) * v.x, abs(math.floor(t)) * v.y)
 
-print(test(vector(-0.5, 0.2)))
-print(test(vector(-0.5, -0.2)))
 

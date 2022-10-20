@@ -1,7 +1,6 @@
-from m_vector import m_vector
+# -*- coding:utf-8 -*-
+from src.core.Application import Application
 
-if __name__ == '__main__':
-    pass
-    b = m_vector(1, 0, 0)
-    a = m_vector(0, 1, 0)
-    print(m_vector.cross(a, b))
+if __name__ == "__main__":
+    app = Application((800, 600))
+    app.run()

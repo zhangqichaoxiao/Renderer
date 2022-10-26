@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import math
+from typing import NewType
 
 '''
 类方法，后续研究
@@ -44,6 +45,7 @@ class m_vector:
     @classmethod
     def distance(cls, v1, v2):
         cur_vector = v1 - v2
+        # Fix: 可以直接返回cur_vector.magnitude(), 不必引入中间变量
         cur_vector_len = cur_vector.magnitude()
         return cur_vector_len
 
@@ -73,17 +75,21 @@ class m_vector:
 
     # 向量长度
     def magnitude(self):
+        # Fix: 考虑复用sqr_magnitude的结果
         return math.sqrt(pow(self.list_value[0], 2) + pow(self.list_value[1], 2) + pow(self.list_value[2], 2))
 
     # 平方长度
     def sqr_magnitude(self):
+        # Fix: 平方考虑直接相乘
         return pow(self.list_value[0], 2) + pow(self.list_value[1], 2) + pow(self.list_value[2], 2)
 
     # 是否为0
     def is_zero(self):
         for value in self.list_value:
+            # Fix: 浮点数和0的比较问题
             if value != 0:
                 return False
+                # Fix: break多余
                 break
         return True
 
@@ -94,4 +100,6 @@ class m_vector:
     # 获取两向量夹角：弧度即可
     @classmethod
     def angle(cls, v1, v2):
-        return math.acos(cls.dot(v1, v2) / cls.magnitude(v1) * cls.magnitude(v2))
+        numerator = cls.dot(v1, v2)
+        denominator = v1.sqr_magnitude() * v2.sqr_magnitude()
+        return math.acos(math.sqrt(numerator * numerator / denominator) * (1 if numerator > 0 else -1))

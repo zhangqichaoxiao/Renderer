@@ -9,7 +9,7 @@ from typing import NewType
         return "p"
 '''
 
-
+# Fix: 类名修改，不加m_前缀
 class m_vector:
     # 构造函数
     def __init__(self, *value):

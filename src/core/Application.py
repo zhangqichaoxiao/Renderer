@@ -81,8 +81,9 @@ class Application(Singleton):
         s, c = math.sin(angle), math.cos(angle)
         pb = pa + vector(c, s) * radius
 
+        # bresenham算法
         self.painter.setPen(Qt.white)
-
+        g.dda_line(vector(100, 100), vector(300, 300), Qt.yellow)
         g.dda_line(pa, pb, Qt.white)
 
     def run(self):

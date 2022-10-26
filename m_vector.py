@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import math
 
 '''
 类方法，后续研究
@@ -13,34 +14,6 @@ class m_vector:
     def __init__(self, *value):
         self.list_value = list(value)
 
-    # 加
-    def __add__(self, other):
-        current_list_value = []
-        for i in range(3):
-            current_list_value.append(self.list_value[i] + other.list_value[i])
-        return m_vector(*current_list_value)
-
-    # 减
-    def __sub__(self, other):
-        current_list_value = []
-        for i in range(3):
-            current_list_value.append(self.list_value[i] - other.list_value[i])
-        return m_vector(*current_list_value)
-
-    # 乘
-    def __mul__(self, other):
-        current_list_value = []
-        for i in range(3):
-            current_list_value.append(self.list_value[i] * other.list_value[i])
-        return m_vector(*current_list_value)
-
-    # 除
-    def __truediv__(self, other):
-        current_list_value = []
-        for i in range(3):
-            current_list_value.append(self.list_value[i] / other.list_value[i])
-        return m_vector(*current_list_value)
-
     # 打印
     def __str__(self):
         return str(self.list_value)
@@ -52,6 +25,31 @@ class m_vector:
     # []=
     def __setitem__(self, key, value):
         self.list_value[key] = value
+
+    # 向量加法
+    def __add__(self, other):
+        current_list_value = []
+        for i in range(3):
+            current_list_value.append(self.list_value[i] + other.list_value[i])
+        return m_vector(*current_list_value)
+
+    # 向量减法
+    def __sub__(self, other):
+        current_list_value = []
+        for i in range(3):
+            current_list_value.append(self.list_value[i] - other.list_value[i])
+        return m_vector(*current_list_value)
+
+    # 两点距离
+    @classmethod
+    def distance(cls, v1, v2):
+        cur_vector = v1 - v2
+        cur_vector_len = cur_vector.magnitude()
+        return cur_vector_len
+
+    # 标量相乘
+    def mul_scalar(self, f1):
+        return m_vector(self[0] * f1, self[1] * f1, self[2] * f1)
 
     # 点成
     @classmethod
@@ -68,3 +66,32 @@ class m_vector:
         return m_vector(v1[1] * v2[2] - v1[2] * v2[1],
                         v1[2] * v2[0] - v1[0] * v2[2],
                         v1[0] * v2[1] - v1[1] * v2[0])
+
+    # 向量取反
+    def negative(self):
+        return m_vector(self.list_value[0] * -1, self.list_value[1] * -1, self.list_value[2] * -1)
+
+    # 向量长度
+    def magnitude(self):
+        return math.sqrt(pow(self.list_value[0], 2) + pow(self.list_value[1], 2) + pow(self.list_value[2], 2))
+
+    # 平方长度
+    def sqr_magnitude(self):
+        return pow(self.list_value[0], 2) + pow(self.list_value[1], 2) + pow(self.list_value[2], 2)
+
+    # 是否为0
+    def is_zero(self):
+        for value in self.list_value:
+            if value != 0:
+                return False
+                break
+        return True
+
+    # 标准化
+    def normalize(self):
+        return self.mul_scalar(1 / self.magnitude())
+
+    # 获取两向量夹角：弧度即可
+    @classmethod
+    def angle(cls, v1, v2):
+        return math.acos(cls.dot(v1, v2) / cls.magnitude(v1) * cls.magnitude(v2))

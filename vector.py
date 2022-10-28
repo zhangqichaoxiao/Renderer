@@ -1,16 +1,8 @@
 # -*- coding:utf-8 -*-
 import math
-from typing import NewType
 
-'''
-类方法，后续研究
-@classmethod
-    def get_name_1(cls):
-        return "p"
-'''
-
-# Fix: 类名修改，不加m_前缀
-class m_vector:
+# Fixed: 类名修改，不加m_前缀
+class vector:
     # 构造函数
     def __init__(self, *value):
         self.list_value = list(value)
@@ -32,26 +24,25 @@ class m_vector:
         current_list_value = []
         for i in range(3):
             current_list_value.append(self.list_value[i] + other.list_value[i])
-        return m_vector(*current_list_value)
+        return vector(*current_list_value)
 
     # 向量减法
     def __sub__(self, other):
         current_list_value = []
         for i in range(3):
             current_list_value.append(self.list_value[i] - other.list_value[i])
-        return m_vector(*current_list_value)
+        return vector(*current_list_value)
 
     # 两点距离
     @classmethod
     def distance(cls, v1, v2):
         cur_vector = v1 - v2
-        # Fix: 可以直接返回cur_vector.magnitude(), 不必引入中间变量
-        cur_vector_len = cur_vector.magnitude()
-        return cur_vector_len
+        # Fixed: 可以直接返回cur_vector.magnitude(), 不必引入中间变量
+        return cur_vector.magnitude()
 
     # 标量相乘
     def mul_scalar(self, f1):
-        return m_vector(self[0] * f1, self[1] * f1, self[2] * f1)
+        return vector(self[0] * f1, self[1] * f1, self[2] * f1)
 
     # 点成
     @classmethod
@@ -65,33 +56,31 @@ class m_vector:
     # 叉乘
     @classmethod
     def cross(cls, v1, v2):
-        return m_vector(v1[1] * v2[2] - v1[2] * v2[1],
-                        v1[2] * v2[0] - v1[0] * v2[2],
-                        v1[0] * v2[1] - v1[1] * v2[0])
+        return vector(v1[1] * v2[2] - v1[2] * v2[1],
+                      v1[2] * v2[0] - v1[0] * v2[2],
+                      v1[0] * v2[1] - v1[1] * v2[0])
 
     # 向量取反
     def negative(self):
-        return m_vector(self.list_value[0] * -1, self.list_value[1] * -1, self.list_value[2] * -1)
+        return vector(self.list_value[0] * -1, self.list_value[1] * -1, self.list_value[2] * -1)
 
     # 向量长度
     def magnitude(self):
-        # Fix: 考虑复用sqr_magnitude的结果
-        return math.sqrt(pow(self.list_value[0], 2) + pow(self.list_value[1], 2) + pow(self.list_value[2], 2))
+        # Fixed: 考虑复用sqr_magnitude的结果
+        return math.sqrt(self.sqr_magnitude())
 
     # 平方长度
     def sqr_magnitude(self):
-        # Fix: 平方考虑直接相乘
-        return pow(self.list_value[0], 2) + pow(self.list_value[1], 2) + pow(self.list_value[2], 2)
+        # Fixed: 平方考虑直接相乘
+        return self.list_value[0] * self.list_value[0] + self.list_value[1] * self.list_value[1] + self.list_value[2] * \
+               self.list_value[2]
 
     # 是否为0
     def is_zero(self):
-        for value in self.list_value:
-            # Fix: 浮点数和0的比较问题
-            if value != 0:
-                return False
-                # Fix: break多余
-                break
-        return True
+        # Fixed: 浮点数和0的比较问题
+        if self.list_value[0] <= 1e-5 and self.list_value[1] <= 1e-5 and self.list_value[2] <= 1e-5:
+            return True
+        return False
 
     # 标准化
     def normalize(self):

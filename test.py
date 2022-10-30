@@ -1,4 +1,4 @@
-from vector import vector
+from code.vector import vector
 
 if __name__ == '__main__':
     pass
